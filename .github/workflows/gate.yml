@@ -1,0 +1,25 @@
+# CANDIDATE: workflow_run from the default branch; secret only in environment 'promote' (branches: main)
+name: gate
+on:
+  workflow_run:
+    workflows: [ci]
+    types: [completed]
+    branches: [merge-queue]
+permissions:
+  contents: read
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    environment: promote
+    steps:
+      - env:
+          T: ${{ secrets.ENV_CANARY }}
+          EV: ${{ github.event.workflow_run.event }}
+          HB: ${{ github.event.workflow_run.head_branch }}
+          PATH_WF: ${{ github.event.workflow_run.path }}
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+          CONC: ${{ github.event.workflow_run.conclusion }}
+        run: |
+          echo "DEF=main gate ref=$GITHUB_REF wfsha=$GITHUB_WORKFLOW_SHA ev=$EV hb=$HB path=$PATH_WF head=$HEAD_SHA conc=$CONC canary_len=${#T}"
+          [ "$EV" = push ] && [ "$HB" = merge-queue ] && [ "$PATH_WF" = .github/workflows/ci.yml ] && [ "$CONC" = success ] || { echo "refusing: untrusted trigger"; exit 1; }
+          echo "would verify HEAD_SHA == merge-queue tip, then ff-promote"

@@ -1,0 +1,2 @@
+{"targets":[{"target":"cov","baseline":"baselines/cov.json"}],
+ "definitions":[".github/workflows/measure.yml","measure.sh","policy/ratchets.json"]}

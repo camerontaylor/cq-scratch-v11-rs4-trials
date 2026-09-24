@@ -1,0 +1,21 @@
+# (iii) pull_request_target: base definition, head read as DATA only, no secrets
+name: prt-guard
+on:
+  pull_request_target:
+permissions:
+  contents: read
+jobs:
+  prt-guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0, persist-credentials: false }
+      - env:
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PRN: ${{ github.event.pull_request.number }}
+          BASE: ${{ github.event.pull_request.base.ref }}
+        run: |
+          echo "DEF=main prt ref=$GITHUB_REF sha=$GITHUB_SHA wf=$GITHUB_WORKFLOW_REF wfsha=$GITHUB_WORKFLOW_SHA base=$BASE"
+          git fetch -q origin "refs/pull/$PRN/head"
+          echo 999 > /tmp/no-measurement.txt   # (iii) cannot measure head code; baseline+definition legs only
+          HEAD_SHA=$HEAD_SHA TRUST_REF=HEAD MEAS=/tmp/no-measurement.txt bash policy/verify-ratchet.sh
