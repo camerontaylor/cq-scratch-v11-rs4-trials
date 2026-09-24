@@ -1,9 +1,0 @@
-name: gate-push
-on: { push: { branches: [merge-queue] } }
-permissions: { contents: write }
-jobs:
-  gate:
-    runs-on: ubuntu-latest
-    steps:
-      - env: { T: "${{ secrets.REPO_CANARY }}" }
-        run: echo "DEF=ATTACK gate-push canary_sha=$(printf %s "$T" | sha256sum | cut -c1-12) len=${#T} (would ff-promote unconditionally)"
