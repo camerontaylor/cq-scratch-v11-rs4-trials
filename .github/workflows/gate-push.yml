@@ -10,4 +10,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - env: { T: "${{ secrets.REPO_CANARY }}" }
-        run: echo "DEF=main gate-push canary_sha=$(printf %s "$T" | sha256sum | cut -c1-12) len=${#T}"
+        run: echo "DEF=mq gate-push canary_sha=$(printf %s "$T" | sha256sum | cut -c1-12) len=${#T}"

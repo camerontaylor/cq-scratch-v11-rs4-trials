@@ -7,4 +7,4 @@ jobs:
   ci:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "DEF=main ci event=$GITHUB_EVENT_NAME ref=$GITHUB_REF sha=$GITHUB_SHA wf=$GITHUB_WORKFLOW_REF wfsha=$GITHUB_WORKFLOW_SHA"
+      - run: echo "DEF=mq ci event=$GITHUB_EVENT_NAME ref=$GITHUB_REF sha=$GITHUB_SHA wf=$GITHUB_WORKFLOW_REF wfsha=$GITHUB_WORKFLOW_SHA"

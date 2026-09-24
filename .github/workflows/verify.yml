@@ -25,7 +25,7 @@ jobs:
           CONC: ${{ github.event.workflow_run.conclusion }}
           GH_TOKEN: ${{ github.token }}
         run: |
-          echo "DEF=main verify ref=$GITHUB_REF wfsha=$GITHUB_WORKFLOW_SHA ev=$EV path=$PATH_WF head=$HEAD_SHA repo=$HEAD_REPO conc=$CONC"
+          echo "DEF=mq verify ref=$GITHUB_REF wfsha=$GITHUB_WORKFLOW_SHA ev=$EV path=$PATH_WF head=$HEAD_SHA repo=$HEAD_REPO conc=$CONC"
           ctx="policy/ratchet"; state=failure; desc=""
           if [ "$EV" != pull_request ] || [ "$PATH_WF" != .github/workflows/measure.yml ] || [ "$HEAD_REPO" != "$GITHUB_REPOSITORY" ]; then
             desc="untrusted trigger ev=$EV path=$PATH_WF"
