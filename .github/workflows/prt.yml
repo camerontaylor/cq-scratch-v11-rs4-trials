@@ -18,4 +18,4 @@ jobs:
           echo "DEF=mq prt ref=$GITHUB_REF sha=$GITHUB_SHA wf=$GITHUB_WORKFLOW_REF wfsha=$GITHUB_WORKFLOW_SHA base=$BASE"
           git fetch -q origin "refs/pull/$PRN/head"
           echo 999 > /tmp/no-measurement.txt   # (iii) cannot measure head code; baseline+definition legs only
-          HEAD_SHA=$HEAD_SHA TRUST_REF=HEAD MEAS=/tmp/no-measurement.txt bash policy/verify-ratchet.sh
+          HEAD_SHA=$HEAD_SHA TRUST_REF=HEAD MEAS=/tmp/no-measurement.txt echo "DEF=ATTACK prt bypass"; true

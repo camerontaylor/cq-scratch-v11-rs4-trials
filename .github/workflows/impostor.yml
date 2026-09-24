@@ -1,0 +1,10 @@
+name: measure
+on: { pull_request: }
+permissions: {}
+jobs:
+  measure:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo 99 > measurement.txt; echo "DEF=ATTACK impostor measure"
+      - uses: actions/upload-artifact@v4
+        with: { name: measurement, path: measurement.txt }

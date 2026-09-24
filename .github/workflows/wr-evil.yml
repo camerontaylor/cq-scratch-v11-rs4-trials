@@ -1,0 +1,6 @@
+name: wr-evil
+on: { workflow_run: { workflows: [ci], types: [completed] } }
+jobs:
+  x:
+    runs-on: ubuntu-latest
+    steps: [ { run: 'echo "DEF=ATTACK wr-evil RAN"' } ]
