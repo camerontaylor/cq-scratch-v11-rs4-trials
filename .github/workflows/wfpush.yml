@@ -1,0 +1,17 @@
+# RS-4 r1 trial: can an App installation token WITHOUT `workflows` permission push workflow-file changes?
+name: wfpush
+on: { workflow_dispatch: }
+permissions: { contents: write }
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          git config user.email probe@example.invalid; git config user.name probe
+          git checkout -b wfpush-probe-$GITHUB_RUN_ID
+          echo x > probe-nonworkflow.txt; git add probe-nonworkflow.txt; git commit -qm "non-workflow change"
+          if git push -q origin HEAD 2>&1; then echo "RESULT nonworkflow push: accepted"; else echo "RESULT nonworkflow push: REJECTED"; fi
+          echo "# touched" >> .github/workflows/ci.yml; git commit -qam "workflow change"
+          if out=$(git push origin HEAD 2>&1); then echo "RESULT workflow push: accepted"; else echo "RESULT workflow push: REJECTED"; fi
+          echo "$out" | grep -i -E "workflow|refusing|permission" | sed 's/^/RESULT msg: /'

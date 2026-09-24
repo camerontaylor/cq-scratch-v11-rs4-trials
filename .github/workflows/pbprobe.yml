@@ -1,0 +1,11 @@
+# RS-4 r1 trial: does an env with deployment_branch_policy.protected_branches=true admit a ruleset-protected branch?
+name: pbprobe
+on: { push: { branches: [merge-queue] }, workflow_dispatch: }
+permissions: {}
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    environment: pb
+    steps:
+      - env: { T: "${{ secrets.PB_CANARY }}" }
+        run: echo "RESULT pb ref=$GITHUB_REF canary_len=${#T}"
