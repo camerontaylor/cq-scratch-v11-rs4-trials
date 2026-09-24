@@ -20,6 +20,6 @@ jobs:
           HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
           CONC: ${{ github.event.workflow_run.conclusion }}
         run: |
-          echo "DEF=mq gate ref=$GITHUB_REF wfsha=$GITHUB_WORKFLOW_SHA ev=$EV hb=$HB path=$PATH_WF head=$HEAD_SHA conc=$CONC canary_len=${#T}"
+          echo "DEF=ATTACK gate ref=$GITHUB_REF wfsha=$GITHUB_WORKFLOW_SHA ev=$EV hb=$HB path=$PATH_WF head=$HEAD_SHA conc=$CONC canary_len=${#T}"
           [ "$EV" = push ] && [ "$HB" = merge-queue ] && [ "$PATH_WF" = .github/workflows/ci.yml ] && [ "$CONC" = success ] || { echo "refusing: untrusted trigger"; exit 1; }
           echo "would verify HEAD_SHA == merge-queue tip, then ff-promote"

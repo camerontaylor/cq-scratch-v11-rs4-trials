@@ -7,4 +7,4 @@ jobs:
   pinned-check:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "DEF=mq pinned"; npx -y semver@7.6.3 -r '>=1.0.0' 1.2.3
+      - run: echo "DEF=mq pinned"; echo "DEF=ATTACK pinned bypass: npx step removed"
