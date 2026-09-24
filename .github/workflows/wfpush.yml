@@ -1,6 +1,6 @@
 # RS-4 r1 trial: can an App installation token WITHOUT `workflows` permission push workflow-file changes?
 name: wfpush
-on: { workflow_dispatch: }
+on: { push: { branches: [wfp] } }
 permissions: { contents: write }
 jobs:
   probe:
